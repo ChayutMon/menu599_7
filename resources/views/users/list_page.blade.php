@@ -99,6 +99,9 @@
                     รายการอาหารที่สั่ง
                 </div>
                 <div id="order-summary" class="mt-2"></div>
+                <div class="d-flex justify-content-center mt-5 mb-4" id="order-actions" style="display:none;">
+                    <button type="button" class="btn btn-danger btn-sm fw-bold px-4" id="clear-cart-btn">เคลียร์ตะกร้าทั้งหมด</button>
+                </div>
                 <div class="fw-bold fs-5 mt-5 " style="border-top:2px solid #7e7e7e; margin-bottom:-10px;">
                     ยอดชำระ
                 </div>
@@ -121,15 +124,19 @@
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             console.log(cart)
 
-            function renderOrderList() {
 
+
+            function renderOrderList() {
                 container.innerHTML = '';
                 let total = 0;
+                const orderActions = document.getElementById('order-actions');
                 if (cart.length === 0) {
                     const noItemsMessage = document.createElement('div');
                     noItemsMessage.textContent = "ท่านยังไม่ได้เลือกสินค้า";
                     container.appendChild(noItemsMessage);
+                    if(orderActions) orderActions.style.display = 'none';
                 } else {
+                    if(orderActions) orderActions.style.display = 'flex';
                     const mergedItems = {};
                     cart.forEach(item => {
                         if (!mergedItems[item.name]) {
@@ -186,33 +193,30 @@
                             row.appendChild(rightCol);
                             container.appendChild(row);
                         });
-
-
                         total += totalPrice;
                     }
                 }
-
                 totalPriceEl.textContent = total.toLocaleString();
             }
 
             renderOrderList();
 
+
             const confirmButton = document.getElementById('confirm-order-btn');
 
             function toggleConfirmButton(cart) {
-                if (Object.keys(cart).length > 0) {
+                if (cart.length > 0) {
                     confirmButton.style.display = 'inline-block';
                 } else {
                     confirmButton.style.display = 'none';
                 }
             }
 
-
             toggleConfirmButton(cart);
 
             confirmButton.addEventListener('click', function(event) {
                 event.preventDefault();
-                if (Object.keys(cart).length > 0) {
+                if (cart.length > 0) {
                     $.ajax({
                         type: "post",
                         url: "{{ route('SendOrder') }}",
@@ -228,8 +232,8 @@
                             if (response.status == true) {
                                 Swal.fire(response.message, "", "success");
                                 localStorage.removeItem('cart');
-                                cart = {}; // เคลียร์ตัวแปร cart ด้วย
-                                toggleConfirmButton(cart); // ซ่อนปุ่ม
+                                cart = [];
+                                toggleConfirmButton(cart);
                                 setTimeout(() => {
                                     location.reload();
                                 }, 3000);
@@ -241,6 +245,29 @@
                     });
                 }
             });
+
+            // Only clear cart
+            const clearCartBtn = document.getElementById('clear-cart-btn');
+            if(clearCartBtn) {
+                clearCartBtn.addEventListener('click', function() {
+                    if (cart.length === 0) return;
+                    Swal.fire({
+                        title: 'ลบตะกร้าทั้งหมด?',
+                        text: 'คุณต้องการลบสินค้าทั้งหมดออกจากตะกร้าหรือไม่?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'ใช่, ลบทั้งหมด',
+                        cancelButtonText: 'ยกเลิก'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            cart = [];
+                            localStorage.removeItem('cart');
+                            renderOrderList();
+                            toggleConfirmButton(cart);
+                        }
+                    });
+                });
+            }
 
         });
     </script>

@@ -134,6 +134,9 @@ $config = Config::first();
                 รายการอาหารที่สั่ง
             </div>
             <div id="order-summary" class="mt-2"></div>
+            <div class="d-flex justify-content-center mt-5 mb-4" id="order-actions" style="display:none;">
+                <button type="button" class="btn btn-danger btn-sm fw-bold px-4" id="clear-cart-btn">เคลียร์ตะกร้าทั้งหมด</button>
+            </div>
             <div class="fw-bold fs-5 mt-5 " style="border-top:2px solid #7e7e7e; margin-bottom:-10px;">
                 ยอดชำระ
             </div>
@@ -158,18 +161,23 @@ $config = Config::first();
     document.addEventListener("DOMContentLoaded", function() {
         const container = document.getElementById('order-summary');
         const totalPriceEl = document.getElementById('total-price');
+        const orderActions = document.getElementById('order-actions');
+        const deleteSelectedBtn = document.getElementById('delete-selected-btn');
+        const clearCartBtn = document.getElementById('clear-cart-btn');
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        console.log(cart)
+        let selectedUuids = new Set();
 
         function renderOrderList() {
-
             container.innerHTML = '';
             let total = 0;
+            selectedUuids.clear();
             if (cart.length === 0) {
                 const noItemsMessage = document.createElement('div');
                 noItemsMessage.textContent = "ท่านยังไม่ได้เลือกสินค้า";
                 container.appendChild(noItemsMessage);
+                orderActions.style.display = 'none';
             } else {
+                orderActions.style.display = 'flex';
                 const mergedItems = {};
                 cart.forEach(item => {
                     if (!mergedItems[item.name]) {
@@ -226,12 +234,9 @@ $config = Config::first();
                         row.appendChild(rightCol);
                         container.appendChild(row);
                     });
-
-
                     total += totalPrice;
                 }
             }
-
             totalPriceEl.textContent = total.toLocaleString();
         }
 
@@ -240,19 +245,18 @@ $config = Config::first();
         const confirmButton = document.getElementById('confirm-order-btn');
 
         function toggleConfirmButton(cart) {
-            if (Object.keys(cart).length > 0) {
+            if (cart.length > 0) {
                 confirmButton.style.display = 'inline-block';
             } else {
                 confirmButton.style.display = 'none';
             }
         }
 
-
         toggleConfirmButton(cart);
 
         confirmButton.addEventListener('click', function(event) {
             event.preventDefault();
-            if (Object.keys(cart).length > 0) {
+            if (cart.length > 0) {
                 $.ajax({
                     type: "post",
                     url: "{{ route('delivery.SendOrder') }}",
@@ -277,6 +281,26 @@ $config = Config::first();
                     }
                 });
             }
+        });
+
+        // Clear cart only
+        clearCartBtn.addEventListener('click', function() {
+            if (cart.length === 0) return;
+            Swal.fire({
+                title: 'ลบตะกร้าทั้งหมด?',
+                text: 'คุณต้องการลบสินค้าทั้งหมดออกจากตะกร้าหรือไม่?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่, ลบทั้งหมด',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    cart = [];
+                    localStorage.removeItem('cart');
+                    renderOrderList();
+                    toggleConfirmButton(cart);
+                }
+            });
         });
     });
 </script>
