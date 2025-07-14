@@ -132,7 +132,7 @@ $config = Config::first();
                 </div>
             </div>
         </div>
-        <a href="{{route('admin.logout')}}" class="btn btn-sm btn-danger" type="button">ออกจากระบบ</a>
+        <a href="{{route('delivery.login')}}" class="btn btn-sm btn-danger" type="button">ออกจากระบบ</a>
     </div>
 </div>
 <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
