@@ -38,24 +38,28 @@ $config = Config::first();
 
 
     .food-box img {
-        width: 100%;
-        height: 120px;
+        width: 130%;
         object-fit: cover;
         border-radius: 0.5rem;
     }
 
+    .food-box {
+        padding: 15px; 
+        background: rgba(255, 255, 255, 0.1); 
+        border-radius: 15px; 
+        margin-bottom: 15px; 
+    }
 
     .food-label {
-        font-size: 18px;
+        font-size: 22px; 
         color: <?= ($config->color_category != '')  ? $config->color_category :  '#ffffff' ?>;
         font-weight: bold;
         text-align: center;
         word-wrap: break-word;
-        /* เพิ่มบังคับตัดบรรทัด */
         overflow-wrap: break-word;
-        /* รองรับเบราว์เซอร์ใหม่ */
         width: 100%;
-        line-height: 0.9;
+        line-height: 1.2; 
+        margin-top: 10px; 
     }
 </style>
 @if(count($promotion) > 0)
@@ -110,7 +114,7 @@ $config = Config::first();
         <div class="gap-2 py-2">
             <div class="row py-2">
                 @foreach($category as $rs)
-                <div class="col-6 mb-2">
+                <div class="col-6 mb-3"> <!-- เพิ่ม mb-3 เพื่อเพิ่มระยะห่าง -->
                     <div class="food-box">
                         <a href="{{route('detail',$rs->id)}}" style="text-decoration: none;" class="d-flex flex-column justify-content-center align-items-center">
                             <?php if ($rs['files']) { ?>
@@ -118,7 +122,7 @@ $config = Config::first();
                             <?php } else { ?>
                                 <img src="{{ asset('foods/default-photo.png') }}" alt="icon">
                             <?php } ?>
-                            <div class="food-label mt-2">{{$rs->name}}</div>
+                            <div class="food-label">{{$rs->name}}</div>
                         </a>
                     </div>
                 </div>

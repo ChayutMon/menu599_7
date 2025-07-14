@@ -68,7 +68,7 @@ Route::middleware(['role:user'])->group(function () {
 Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/admin/auth', [AuthController::class, 'login']);
 Route::get('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
-
+Route::post('/login-phone', [AuthController::class, 'loginUser']);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['checkLogin'])->name('admin');

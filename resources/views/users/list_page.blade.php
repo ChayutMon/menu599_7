@@ -71,20 +71,13 @@
 
         .btn-edit {
             background: transparent;
-            /* ไม่มีพื้นหลัง */
             color: rgb(206, 0, 0);
-            /* ตัวหนังสือสีแดง */
             border: none;
-            /* ไม่มีเส้นขอบ */
             font-size: 12px;
-            /* ขนาดตัวอักษร */
             text-decoration: underline;
-            /* มีเส้นใต้ */
             padding: 0;
-            /* เอา padding ออกเพื่อไม่ให้เกินขอบ */
             margin-top: -8px;
             cursor: pointer;
-            /* เปลี่ยนเมาส์เป็น pointer */
         }
     </style>
 
@@ -93,6 +86,8 @@
             <div class="title-buy">
                 คำสั่งซื้อ
             </div>
+            <a href="javascript:void(0);" class="btn-aprove mt-3" id="confirm-order-btn"
+                style="display: none;">ยืนยันคำสั่งซื้อ</a>
             <div class="bg-white px-2 pt-3 shadow-lg d-flex flex-column aling-items-center justify-content-center"
                 style="border-radius: 10px;">
                 <div class="title-list-buy">

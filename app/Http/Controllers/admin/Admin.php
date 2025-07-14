@@ -30,6 +30,8 @@ class Admin extends Controller
         $data['orderday'] = Orders::select(DB::raw("SUM(total)as total"))->where('status', 3)->whereDay('created_at', date('d'))->first();
         $data['ordermouth'] = Orders::select(DB::raw("SUM(total)as total"))->where('status', 3)->whereMonth('created_at', date('m'))->first();
         $data['orderyear'] = Orders::select(DB::raw("SUM(total)as total"))->where('status', 3)->whereYear('created_at', date('Y'))->first();
+        $data['moneyDay'] = Pay::select(DB::raw("SUM(total)as total"))->where('is_type', 0)->whereDay('created_at', date('d'))->first();
+        $data['transferDay'] = Pay::select(DB::raw("SUM(total)as total"))->where('is_type', 1)->whereDay('created_at', date('d'))->first();
         $data['ordertotal'] = Orders::count();
         $data['rider'] = User::where('is_rider', 1)->get();
 
@@ -75,8 +77,8 @@ class Admin extends Controller
             ->whereNotNull('o.table_id')
             ->whereIn('o.status', [1, 2])
             ->groupBy('o.table_id')
-            ->orderByDesc('has_status_1') // ถ้ามี status = 1 จะได้ค่ามากกว่า → ขึ้นก่อน
-            ->orderByDesc(DB::raw('MAX(o.created_at)')) // จัดเรียงวันที่ในกลุ่มด้วย
+            ->orderByDesc('has_status_1')
+            ->orderByDesc(DB::raw('MAX(o.created_at)')) 
             ->get();
 
         if (count($order) > 0) {
@@ -220,7 +222,7 @@ class Admin extends Controller
                     'o.table_id',
                     DB::raw('SUM(o.total) as total'),
                 )
-                ->whereNot('table_id')
+                ->whereNotNull('o.table_id')
                 ->groupBy('o.table_id')
                 ->where('table_id', $id)
                 ->whereIn('status', [1, 2])
@@ -357,7 +359,7 @@ class Admin extends Controller
             'message' => '',
             'data' => []
         ];
-        $pay = Pay::whereNot('table_id')->get();
+        $pay = Pay::whereNotNull('table_id')->get();
 
         if (count($pay) > 0) {
             $info = [];
@@ -396,7 +398,7 @@ class Admin extends Controller
             'message' => '',
             'data' => []
         ];
-        $pay = Pay::where('table_id')->get();
+        $pay = Pay::whereNull('table_id')->get();
 
         if (count($pay) > 0) {
             $info = [];
@@ -525,9 +527,9 @@ class Admin extends Controller
         ];
         $order = Orders::select('orders.*', 'users.name')
             ->join('users', 'orders.users_id', '=', 'users.id')
-            ->where('table_id')
-            ->whereNot('users_id')
-            ->whereNot('address_id')
+            ->whereNull('table_id')
+            ->whereNotNull('users_id')
+            ->whereNotNull('address_id')
             ->orderBy('created_at', 'desc')
             ->whereIn('status', [1, 2])
             ->get();

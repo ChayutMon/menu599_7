@@ -65,17 +65,18 @@ $config = Config::first();
                                 <span class="app-brand-text demo text-body fw-bolder">{{ $config->name ?? 'shop' }}</span>
                             </a>
                         </div>
-                        <form action="{{url('/admin/auth')}}" method="post">
+                        <form action="{{url('/login-phone')}}" method="post">
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="tel" class="form-label">Phone Number</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    autofocus />
+                                    id="tel"
+                                    name="tel"
+                                    placeholder="Phone Number"
+                                    autofocus 
+                                    required />
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
@@ -88,7 +89,8 @@ $config = Config::first();
                                         class="form-control"
                                         name="password"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
+                                        aria-describedby="password" 
+                                        required />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
                             </div>

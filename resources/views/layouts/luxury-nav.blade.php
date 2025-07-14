@@ -39,7 +39,7 @@ $config = Config::first();
 
         body {
             margin: 0;
-            padding-bottom: 30px;
+            padding-bottom: 90px; /* เพิ่มจาก 30px เป็น 90px เพื่อให้พื้นที่สำหรับ navbar ที่ใหญ่ขึ้น */
             font-family: 'PROMPT', sans-serif;
             background-image: url('{{ $config->image_bg ? url("storage/".$config->image_bg) : asset("bg-df/bg-dfs.jpg") }}');
             background-size: cover;
@@ -55,13 +55,15 @@ $config = Config::first();
             bottom: 0;
             left: 0;
             width: 100%;
+            height: 80px; /* เพิ่มความสูงจาก default เป็น 80px */
             background-color: rgba(255, 255, 255, 0.95);
             border-top: 1px solid #ddd;
             display: flex;
             justify-content: space-around;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15); /* เพิ่มเงาให้เข้มขึ้น */
             z-index: 999;
             transition: transform 0.3s ease;
+            padding: 10px 0; /* เพิ่ม padding บนล่าง */
         }
 
         .bottom-navbar.hide {
@@ -73,19 +75,21 @@ $config = Config::first();
             text-align: center;
             text-decoration: none;
             color: var(--primary-color);
-            font-size: 0.75rem;
-            padding: 0.5rem 0rem;
+            font-size: 14px; /* เพิ่มจาก 0.75rem (12px) เป็น 14px */
+            padding: 8px 12px; /* เพิ่ม padding */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
+            font-weight: 500; /* เพิ่มความหนาตัวอักษร */
         }
 
         .bottom-navbar a:hover {
             color: var(--text-color);
             background: linear-gradient(360deg, var(--primary-color), var(--sub-color));
             transform: scale(1.05);
+            border-radius: 10px; /* เพิ่มขอบโค้งเมื่อ hover */
         }
 
         .bottom-navbar a.active {
@@ -93,13 +97,40 @@ $config = Config::first();
         }
 
         .bottom-navbar a .icon {
-            font-size: 1.5rem;
+            font-size: 28px; /* เพิ่มจาก 1.5rem (24px) เป็น 28px */
+            margin-bottom: 6px; /* เพิ่มระยะห่างระหว่างไอคอนกับข้อความ */
+        }
+
+        .bottom-navbar a .icon i {
+            font-size: 28px; /* เพิ่มขนาดไอคอน Font Awesome */
         }
 
         main {
             padding: 1rem;
             text-align: center;
         }
+
+        /* หากต้องการให้ใหญ่มากขึ้นอีก ใช้ CSS นี้แทน */
+        /*
+        .bottom-navbar {
+            height: 100px;
+            padding: 15px 0;
+        }
+
+        .bottom-navbar a {
+            font-size: 16px;
+            padding: 10px 15px;
+        }
+
+        .bottom-navbar a .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        body {
+            padding-bottom: 110px;
+        }
+        */
     </style>
 </head>
 

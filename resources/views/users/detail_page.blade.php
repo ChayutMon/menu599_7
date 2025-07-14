@@ -11,7 +11,7 @@
     ?>
     <style>
         .title-food {
-            font-size: 30px;
+            font-size: 40px;
             font-weight: bold;
             color: <?=$config->color_font !='' ? $config->color_font : '#ffffff' ?>;
         }
@@ -25,7 +25,7 @@
 
 
         .card-title {
-            font-size: 15px;
+            font-size: 20px;
         }
 
         .btn-gray-left {
@@ -162,11 +162,11 @@
                                 <div class="position-relative">
                                     @if ($rs['files'])
                                         <img src="{{ url('storage/' . $rs['files']->file) }}" class="img-fluid rounded"
-                                            style="width: 100%; height: 130px; object-fit: cover; border-radius: 10px;"
+                                            style="width: 180%; height: 130px; object-fit: cover; border-radius: 10px;"
                                             alt="food">
                                     @else
                                         <img src="{{ asset('foods/default-photo.png') }}" class="img-fluid rounded"
-                                            style="width: 100%; height: 130px; object-fit: cover; border-radius: 10px;"
+                                            style="width: 180%; height: 130px; object-fit: cover; border-radius: 10px;"
                                             alt="food">
                                     @endif
 
