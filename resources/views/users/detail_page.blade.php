@@ -162,11 +162,11 @@
                                 <div class="position-relative">
                                     @if ($rs['files'])
                                         <img src="{{ url('storage/' . $rs['files']->file) }}" class="img-fluid rounded"
-                                            style="width: 180%; height: 130px; object-fit: cover; border-radius: 10px;"
+                                            style="width: 130%; height: 130px; object-fit: cover; border-radius: 10px;"
                                             alt="food">
                                     @else
                                         <img src="{{ asset('foods/default-photo.png') }}" class="img-fluid rounded"
-                                            style="width: 180%; height: 130px; object-fit: cover; border-radius: 10px;"
+                                            style="width: 130%; height: 130px; object-fit: cover; border-radius: 10px;"
                                             alt="food">
                                     @endif
 

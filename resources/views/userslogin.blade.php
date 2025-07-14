@@ -47,11 +47,23 @@ $config = Config::first();
         })
     </script>
     @endif
+    
+    @if($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: '{{ $errors->first() }}',
+        })
+    </script>
+    @endif
+    
     @if($message = Session::get('error'))
     <script>
         Swal.fire({
             icon: 'error',
-            title: '{{ $message }}',
+            title: 'เกิดข้อผิดพลาด',
+            text: '{{ $message }}',
         })
     </script>
     @endif
@@ -96,10 +108,10 @@ $config = Config::first();
                             </div>
                             <div class="mb-3 row">
                                 <div class="col-6 d-flex justify-content-end">
-                                    <a href="{{route('delivery.register')}}" class="btn btn-primary" type="button">สมัครสมาชิก</a>
+                                    <button class="btn btn-primary" type="submit">เข้าสู่ระบบ</button>
                                 </div>
                                 <div class="col-6 d-flex justify-content-start">
-                                    <button class="btn btn-primary" type="submit">เข้าสู่ระบบ</button>
+                                    <a href="{{route('delivery.register')}}" class="btn btn-primary" type="button">สมัครสมาชิก</a>
                                 </div>
                             </div>
                         </form>

@@ -75,10 +75,10 @@ $config = Config::first();
                                 <label for="tel" class="form-label">เบอร์โทรศัพท์ติดต่อ</label>
                                 <input type="text" class="form-control" id="tel" name="tel" placeholder="เบอร์โทรศัพท์ติดต่อ" autofocus required />
                             </div>
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="email" class="form-label">อีเมล</label>
                                 <input type="text" class="form-control" id="email" name="email" placeholder="Email" autofocus required />
-                            </div>
+                            </div> -->
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">รหัสผ่าน</label>

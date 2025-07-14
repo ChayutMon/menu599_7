@@ -273,7 +273,7 @@ class Delivery extends Controller
         $input = $request->post();
         $users = User::find(Session::get('user')->id);
         $users->name = $input['name'];
-        $users->email = $input['email'];
+        // $users->email = $input['email']; // Email disabled
         if ($users->save()) {
             Session::put('user', $users);
             return redirect()->route('delivery.users')->with('success', 'เพิ่มที่อยู่เรียบร้อยแล้ว');
@@ -329,7 +329,7 @@ class Delivery extends Controller
         $users = new User;
         $users->name = $input['name'];
         $users->tel = $input['tel'];
-        $users->email = $input['email'];
+        $users->email = $input['tel'] . '@temp.com'; // Use phone number as temporary email
         $users->password = Hash::make($input['password']);
         $users->email_verified_at = now();
         if ($users->save()) {

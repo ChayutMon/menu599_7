@@ -57,16 +57,21 @@ $config = Config::first();
         background: linear-gradient(360deg, var(--primary-color), var(--sub-color));
         border-radius: 20px;
         border: 0px solid #0d9700;
-        padding: 5px 0px;
+        padding: 10px 20px;
         font-weight: bold;
         text-decoration: none;
         color: rgb(255, 255, 255);
         transition: background 0.3s ease;
+        width: 100%;
+        text-align: center;
+        display: block;
     }
 
     .btn-aprove:hover {
         background: linear-gradient(360deg, var(--sub-color), var(--primary-color));
         cursor: pointer;
+        color: rgb(255, 255, 255);
+        text-decoration: none;
     }
 
     .btn-edit {
@@ -87,11 +92,18 @@ $config = Config::first();
         /* เปลี่ยนเมาส์เป็น pointer */
     }
 </style>
+
 <div class="container">
     <div class="d-flex flex-column justify-content-center gap-2">
         <div class="title-buy">
             คำสั่งซื้อ
         </div>
+        
+        @if(Session::get('user'))
+        <a href="javascript:void(0);" class="btn-aprove mt-3" id="confirm-order-btn"
+            style="display: none;">ยืนยันคำสั่งซื้อ</a>
+        @endif
+        
         @if(Session::get('user'))
         <div class="card">
             <div class="card-header">ข้อมูลที่อยู่</div>
@@ -128,6 +140,7 @@ $config = Config::first();
             </div>
         </div>
         @endif
+        
         <div class="bg-white px-2 pt-3 shadow-lg d-flex flex-column aling-items-center justify-content-center"
             style="border-radius: 10px;">
             <div class="title-list-buy">
@@ -144,17 +157,14 @@ $config = Config::first();
                 <span id="total-price" style="color: #0d9700"></span><span class="text-dark ms-2">บาท</span>
             </div>
         </div>
+        
         <div class="bg-white p-2 shadow-lg mt-3" style="border-radius:20px;">
             <textarea class="form-control fw-bold text-center bg-white p-2" style="border-radius: 20px;" rows="4"
-                id="remark" placeholder="หมายเหตุ(ความต้องการเพิ่มเติม)">
-</textarea>
+                id="remark" placeholder="หมายเหตุ(ความต้องการเพิ่มเติม)"></textarea>
         </div>
-        @if(Session::get('user'))
-        <a href="javascript:void(0);" class="btn-aprove mt-3" id="confirm-order-btn"
-            style="display: none;">ยืนยันคำสั่งซื้อ</a>
-        @endif
     </div>
 </div>
+
 <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -246,7 +256,7 @@ $config = Config::first();
 
         function toggleConfirmButton(cart) {
             if (cart.length > 0) {
-                confirmButton.style.display = 'inline-block';
+                confirmButton.style.display = 'block';
             } else {
                 confirmButton.style.display = 'none';
             }
